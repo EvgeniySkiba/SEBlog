@@ -1,0 +1,6 @@
+﻿
+
+PM> Install-Package FluentNHibernate 
+
+PM> Install-Package Ninject
+PM> Install-Package Ninject.Web.Common 
