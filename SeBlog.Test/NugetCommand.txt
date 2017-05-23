@@ -1,0 +1,2 @@
+﻿PM> Install-Package NUnit
+PM> Install-Package RhinoMocks 

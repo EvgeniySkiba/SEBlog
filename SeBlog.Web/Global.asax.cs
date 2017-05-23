@@ -17,7 +17,7 @@ namespace SeBlog.Web
 
             kernel.Load(new RepositoryModule());
             kernel.Bind<IBlogRepository>().To<BlogRepository>();
-          
+            kernel.Bind<IAuthProvider>().To<AuthProvider>();
             return kernel;
         }
 

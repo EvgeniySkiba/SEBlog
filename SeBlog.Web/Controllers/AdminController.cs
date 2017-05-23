@@ -1,8 +1,6 @@
 ﻿using SeBlog.Web.Models;
+using SeBlog.Web.Providers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -11,17 +9,18 @@ namespace SeBlog.Web.Controllers
     [Authorize]
     public class AdminController : Controller
     {
+        private readonly IAuthProvider _authProvider;
+
+        public AdminController(IAuthProvider authProvider)
+        {
+            _authProvider = authProvider;
+        }
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                //to avoid the user being redirected to some malicious site
-                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    return Redirect(returnUrl);
-
-                return RedirectToAction("Manage");
-            }
+            if (_authProvider.IsLoggedIn)
+                return RedirectToUrl(returnUrl);
 
             ViewBag.ReturnUrl = returnUrl;
 
@@ -31,20 +30,17 @@ namespace SeBlog.Web.Controllers
         [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && _authProvider.Login(model.UserName, model.Password))
             {
-                if (FormsAuthentication.Authenticate(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false);
-
-                    if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-
-                    return RedirectToAction("Manage");
-                }
-
-                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                return RedirectToUrl(returnUrl);
             }
+
+            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            return View(model);
+        }
+
+        public ActionResult Manage()
+        {
             return View();
         }
 
@@ -53,6 +49,18 @@ namespace SeBlog.Web.Controllers
             FormsAuthentication.SignOut();
 
             return RedirectToAction("Login", "Admin");
+        }
+
+        private ActionResult RedirectToUrl(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Manage");
+            }
         }
     }
 }

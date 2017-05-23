@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeBlog.Web", "SeBlog.Web\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeBlog.Core", "SeBlog.Core\SeBlog.Core.csproj", "{9AF90FEC-389D-46E0-9DD1-82258E9142EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeBlog.Test", "SeBlog.Test\SeBlog.Test.csproj", "{BE6E7548-A79D-4CD4-BE1F-74B3B5ED6E07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9AF90FEC-389D-46E0-9DD1-82258E9142EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AF90FEC-389D-46E0-9DD1-82258E9142EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AF90FEC-389D-46E0-9DD1-82258E9142EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE6E7548-A79D-4CD4-BE1F-74B3B5ED6E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE6E7548-A79D-4CD4-BE1F-74B3B5ED6E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE6E7548-A79D-4CD4-BE1F-74B3B5ED6E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE6E7548-A79D-4CD4-BE1F-74B3B5ED6E07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
