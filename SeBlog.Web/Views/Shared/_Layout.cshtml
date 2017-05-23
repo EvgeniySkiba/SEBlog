@@ -9,6 +9,9 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css"
           href="@Url.Content("~/Content/themes/simple/style.css")" />
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+    <script src="@Url.Content("~/Scripts/app.js")"></script>
 </head>
 
 <body>
@@ -36,6 +39,7 @@
 
         <!-- Site Content -->
         <div id="site_content">
+            @Html.Partial("_Search")
             @RenderBody()
         </div>
 

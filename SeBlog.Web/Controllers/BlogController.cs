@@ -59,5 +59,14 @@ namespace SeBlog.Web.Controllers
                 viewModel.Tag.Name);
             return View("List", viewModel);
         }
+
+        public ViewResult Search(string s, int p = 1)
+        {
+            ViewBag.Title = String.Format(@"Lists of posts found
+                        for search text ""{0}""", s);
+
+            var viewModel = new ListViewModel(_blogRepository, s, "Search", p);
+            return View("List", viewModel);
+        }
     }
 }

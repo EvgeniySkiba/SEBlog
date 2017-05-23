@@ -172,6 +172,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="App_Code\Helpers.cshtml" />
     <Content Include="Views\Shared\_Pager.cshtml" />
+    <Content Include="Views\Shared\_Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
