@@ -14,7 +14,7 @@ namespace SeBlog.Core
         Category Category(string categorySlug);
 
         IList<Post> PostsForCategory(string categorySlug, int pageNo, int pageSize);
-
+        IList<Tag> Tags();
         int TotalPostsForCategory(string categorySlug);
 
         IList<Post> PostsForTag(string tagSlug, int pageNo, int pageSize);
@@ -25,5 +25,7 @@ namespace SeBlog.Core
         int TotalPostsForSearch(string search);
 
         Post Post(int year, int month, string titleSlug);
+
+        IList<Category> Categories();
     }
 }

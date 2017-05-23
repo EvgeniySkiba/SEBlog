@@ -45,5 +45,7 @@ namespace SeBlog.Web.Models
         public Tag Tag { get; private set; }
 
         public string Search { get; private set; }
+
+
     }
 }

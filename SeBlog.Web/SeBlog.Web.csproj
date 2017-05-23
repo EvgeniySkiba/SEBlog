@@ -159,6 +159,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ListViewModel.cs" />
+    <Compile Include="Models\WidgetViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +176,9 @@
     <Content Include="Views\Shared\_Pager.cshtml" />
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\Blog\Post.cshtml" />
+    <Content Include="Views\Shared\_Tags.cshtml" />
+    <Content Include="Views\Shared\_Sidebars.cshtml" />
+    <Content Include="Views\Shared\_Categories.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
