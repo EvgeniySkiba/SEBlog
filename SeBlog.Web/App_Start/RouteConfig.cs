@@ -14,6 +14,18 @@ namespace SeBlog.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "Login",
+                "Login",
+                new { controller = "Admin", action = "Login" }
+            );
+
+            routes.MapRoute(
+                "Logout",
+                "Logout",
+                new { controller = "Admin", action = "Logout" }
+            );
+
+            routes.MapRoute(
                 "Category",
                 "Category/{category}",
                 new { controller = "Blog", action = "Category" }

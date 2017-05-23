@@ -5,6 +5,7 @@ using Ninject.Web.Common;
 using SeBlog.Core;
 using SeBlog.Core.Concrete;
 using SeBlog.Core.Objects;
+using SeBlog.Web.Providers;
 
 namespace SeBlog.Web
 {
@@ -16,7 +17,7 @@ namespace SeBlog.Web
 
             kernel.Load(new RepositoryModule());
             kernel.Bind<IBlogRepository>().To<BlogRepository>();
-
+          
             return kernel;
         }
 

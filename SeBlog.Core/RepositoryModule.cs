@@ -25,7 +25,8 @@ namespace SeBlog.Core
                         .Cache(c => c.UseQueryCache().ProviderClass<HashtableCacheProvider>())
                         .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Post>())
                         //Ask NHibernate to create tables from the classes (ExposeConfiguration) 
-                        .ExposeConfiguration(cfg => new SchemaExport(cfg).Execute(true, true, false))
+                        // if uncomment - every time tables will be re -create                        
+                        //.ExposeConfiguration(cfg => new SchemaExport(cfg).Execute(true, true, false))
                         .BuildConfiguration()
                         .BuildSessionFactory()
                 )
