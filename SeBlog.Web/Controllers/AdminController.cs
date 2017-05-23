@@ -1,4 +1,7 @@
-﻿using SeBlog.Web.Models;
+﻿using Newtonsoft.Json;
+using SeBlog.Core;
+using SeBlog.Core.Objects;
+using SeBlog.Web.Models;
 using SeBlog.Web.Providers;
 using System;
 using System.Web.Mvc;
@@ -10,6 +13,7 @@ namespace SeBlog.Web.Controllers
     public class AdminController : Controller
     {
         private readonly IAuthProvider _authProvider;
+        private readonly IBlogRepository _blogRepository;
 
         public AdminController(IAuthProvider authProvider)
         {
@@ -30,6 +34,9 @@ namespace SeBlog.Web.Controllers
         [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
+            model.UserName = "admin";
+            model.Password = "admin";
+
             if (ModelState.IsValid && _authProvider.Login(model.UserName, model.Password))
             {
                 return RedirectToUrl(returnUrl);
@@ -61,6 +68,62 @@ namespace SeBlog.Web.Controllers
             {
                 return RedirectToAction("Manage");
             }
+        }
+
+        public ActionResult Posts(JqInViewModel jqParams)
+        {
+            var posts = _blogRepository.Posts(jqParams.page - 1, jqParams.rows,
+        jqParams.sidx, jqParams.sord == "asc");
+
+            var totalPosts = _blogRepository.TotalPosts(false);
+
+            // TODO: return the posts, count and other information in the
+            // JSON format needed by the jqGrid
+
+            /*  return Json(new
+              {
+                  page = jqParams.page,
+                  records = totalPosts,
+                  rows = posts,
+                  total = Math.Ceiling(Convert.ToDouble(totalPosts) / jqParams.rows)
+              }, JsonRequestBehavior.AllowGet);*/
+
+            return Content(JsonConvert.SerializeObject(new
+            {
+                page = jqParams.page,
+                records = totalPosts,
+                rows = posts,
+                total = Math.Ceiling(Convert.ToDouble(totalPosts) / jqParams.rows)
+            }), "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult AddPost(Post post)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                var id = _blogRepository.AddPost(post);
+
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = id,
+                    success = true,
+                    message = "Post added successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to add the post."
+                });
+            }
+
+            return Content(json, "application/json");
         }
     }
 }

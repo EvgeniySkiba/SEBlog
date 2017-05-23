@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace SeBlog.Core.Objects
         public virtual string Description
         { get; set; }
 
+        [JsonIgnore]
         public virtual IList<Post> Posts
         { get; set; }
     }

@@ -23,10 +23,13 @@ namespace SeBlog.Core
 
         IList<Post> PostsForSearch(string search, int pageNo, int pageSize);
         int TotalPostsForSearch(string search);
-
         Post Post(int year, int month, string titleSlug);
-
         IList<Category> Categories();
 
+        IList<Post> Posts(int pageNo, int pageSize, string sortColumn,bool sortByAscending);
+        int TotalPosts(bool checkIsPublished = true);
+
+        // TODO: must be changed 
+        int AddPost(Post post);
     }
 }
