@@ -31,7 +31,12 @@ namespace SeBlog.Web
                 new { controller = "Blog", action = "Posts" }
             );
 
-     
+            routes.MapRoute(
+                "Post",
+                "Archive/{year}/{month}/{title}",
+                new { controller = "Blog", action = "Post" }
+            );
+
         }
     }
 }
