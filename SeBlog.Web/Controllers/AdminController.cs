@@ -15,9 +15,10 @@ namespace SeBlog.Web.Controllers
         private readonly IAuthProvider _authProvider;
         private readonly IBlogRepository _blogRepository;
 
-        public AdminController(IAuthProvider authProvider)
+        public AdminController(IAuthProvider authProvider, IBlogRepository blogRepository = null)
         {
             _authProvider = authProvider;
+            _blogRepository = blogRepository;
         }
 
         [AllowAnonymous]
@@ -70,7 +71,8 @@ namespace SeBlog.Web.Controllers
             }
         }
 
-        public ActionResult Posts(JqInViewModel jqParams)
+        [HttpPost]
+        public ContentResult Posts(JqInViewModel jqParams)
         {
             var posts = _blogRepository.Posts(jqParams.page - 1, jqParams.rows,
         jqParams.sidx, jqParams.sord == "asc");

@@ -84,7 +84,15 @@ JustBlog.GridManager = {
         columns.push({
             name: 'Title',
             index: 'Title',
-            width: 250
+            width: 250,
+            editable: true,
+            editoptions: {
+                size: 43,
+                maxlength: 500
+            },
+            editrules: {
+                required: true
+            }
         });
 
         columns.push({
@@ -158,7 +166,7 @@ JustBlog.GridManager = {
         $(gridName).jqGrid({
             url: '/Admin/Posts',
             datatype: 'json',
-            mtype: 'GET',
+            mtype: "POST",
             height: 'auto',
             toppager: true,
 
@@ -196,10 +204,11 @@ JustBlog.GridManager = {
         // configuring add options
         // configuring add options
         var addOptions = {
+            mtype: "POST",
             url: '/Admin/AddPost',
             addCaption: 'Add Post',
             processData: "Saving...",
-            width: 900,
+            width: 900,           
             closeAfterAdd: true,
             closeOnEscape: true,
             afterShowForm: afterShowForm,

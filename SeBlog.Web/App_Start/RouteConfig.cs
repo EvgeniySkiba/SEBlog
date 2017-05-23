@@ -12,7 +12,18 @@ namespace SeBlog.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-         
+
+            routes.MapRoute(
+            "Category",
+            "Category/{category}",
+            new { controller = "Blog", action = "Category" }
+        );
+
+            routes.MapRoute(
+                "Tag",
+                "Tag/{tag}",
+                new { controller = "Blog", action = "Tag" }
+            );
 
             routes.MapRoute(
                 "Login",
@@ -32,18 +43,12 @@ namespace SeBlog.Web
               new { controller = "Admin", action = "Manage" }
           );
 
-            routes.MapRoute(
-                "Category",
-                "Category/{category}",
-                new { controller = "Blog", action = "Category" }
+          routes.MapRoute(
+            "AdminAction",
+            "Admin/{action}",
+            new { controller = "Admin", action = "Login" }
             );
-
-            routes.MapRoute(
-                "Tag",
-                "Tag/{tag}",
-                new { controller = "Blog", action = "Tag" }
-            );
-
+            
             routes.MapRoute(
                 "Action",
                 "{action}",
