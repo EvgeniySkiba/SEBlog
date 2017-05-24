@@ -18,20 +18,18 @@ namespace SeBlog.Web
             kernel.Load(new RepositoryModule());
             kernel.Bind<IBlogRepository>().To<BlogRepository>();
             kernel.Bind<IAuthProvider>().To<AuthProvider>();
+
             return kernel;
         }
 
         protected override void OnApplicationStarted()
         {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ModelBinders.Binders.Add(typeof(Post), new PostModelBinder(Kernel));
           
             base.OnApplicationStarted();
         }
 
-        protected void Application_Start()
-        {
-            AreaRegistration.RegisterAllAreas();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-        }
+       
     }
 }

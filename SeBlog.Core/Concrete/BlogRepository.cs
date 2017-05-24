@@ -104,6 +104,16 @@ namespace SeBlog.Core.Concrete
                         .Count();
         }
 
+        public Category Category(int id)
+        {
+            return _session.Query<Category>().FirstOrDefault(t => t.Id == id);
+        }
+
+        public Tag Tag(int id)
+        {
+            return _session.Query<Tag>().FirstOrDefault(t => t.Id == id);
+        }
+
         public Tag Tag(string tagSlug)
         {
             return _session.Query<Tag>()
@@ -382,5 +392,64 @@ namespace SeBlog.Core.Concrete
                 return post.Id;
             }
         }
+
+        public void DeleteTag(int id)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                var tag = _session.Get<Tag>(id);
+                _session.Delete(tag);
+                tran.Commit();
+            }
+        }
+
+        public void EditTag(Tag tag)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.SaveOrUpdate(tag);
+                tran.Commit();
+            }
+        }
+
+        public int AddTag(Tag tag)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.Save(tag);
+                tran.Commit();
+                return tag.Id;
+            }
+        }
+
+        #region Category
+        public int AddCategory(Category category)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.Save(category);
+                tran.Commit();
+                return category.Id;
+            }
+        }
+        public void DeleteCategory(int id)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                var category = _session.Get<Category>(id);
+                _session.Delete(category);
+                tran.Commit();
+            }
+        }
+        public void EditCategory(Category category)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.SaveOrUpdate(category);
+                tran.Commit();
+            }
+        }
+
+        #endregion 
     }
 }

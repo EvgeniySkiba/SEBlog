@@ -20,6 +20,8 @@ namespace SeBlog.Core
         IList<Post> PostsForTag(string tagSlug, int pageNo, int pageSize);
         int TotalPostsForTag(string tagSlug);
         Tag Tag(string tagSlug);
+        Tag Tag(int id);
+        Category Category(int id);
 
         IList<Post> PostsForSearch(string search, int pageNo, int pageSize);
         int TotalPostsForSearch(string search);
@@ -31,5 +33,16 @@ namespace SeBlog.Core
 
         // TODO: must be changed 
         int AddPost(Post post);
+
+        int AddTag(Tag tag);
+
+        int AddCategory(Category category);
+        void EditCategory(Category category);
+
+        void DeleteCategory(int id);
+
+        void DeleteTag(int id);
+
+        void EditTag(Tag tag);
     }
 }

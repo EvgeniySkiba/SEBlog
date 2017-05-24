@@ -18,51 +18,85 @@
     <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
 
     <!-- jqgrid -->
-     <link href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
     <script src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
 
     <!-- tinyMCE -->
+    <script src="@Url.Content("~/Scripts/tinymce/jquery.tinymce.min.js")"></script>
     <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
 
     <link href="@Url.Content("~/Content/themes/simple/admin.css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/admin.js")"></script>
 
+  
+   
+
+    @*<script type="text/javascript">
+
+        tinymce.init({          
+            height: 50,
+            theme: 'modern',
+            plugins: [
+              'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+              'searchreplace wordcount visualblocks visualchars code fullscreen',
+              'insertdatetime media nonbreaking save table contextmenu directionality',
+              'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
+            ],
+            toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
+            image_advtab: true,
+            templates: [
+              { title: 'Test template 1', content: 'Test 1' },
+              { title: 'Test template 2', content: 'Test 2' }
+            ],
+            content_css: [
+              '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+              '//www.tinymce.com/css/codepen.min.css'
+            ]
+        });
+     
+
+    </script>*@
+
+  
+
 </head>
 <body>
-
-    <!-- logout link -->
-    <div style="text-align:right; margin-bottom:5px;">
-        @Html.ActionLink("logout", "Logout")
-    </div>
-
-    <h2>Manage Posts, Categories and Tags</h2>
-
-    <!-- tab control -->
-    <div id="tabs">
-        <ul>
-            <li><a href="#tab-posts">Posts</a></li>
-            <li><a href="#tab-cats">Categories</a></li>
-            <li><a href="#tab-tags">Tags</a></li>
-        </ul>
-
-        <div id="tab-posts" class="tab">
-            <table id="tablePosts" class="grid"></table>
-            <div id="pagerPosts" class="pager">
+  
+            <!-- logout link -->
+            <div style="text-align:right; margin-bottom:5px;">
+                @Html.ActionLink("logout", "Logout")
             </div>
-        </div>
 
-        <div id="tab-cats" class="tab">
-            <table id="tableCats" class="grid"></table>
-            <div id="pagerCats" class="pager">
-            </div>
-        </div>
+            <h2>Manage Posts, Categories and Tags</h2>
 
-        <div id="tab-tags" class="tab">
-            <table id="tableTags" class="grid"></table>
-            <div id="pagerTags" class="pager">
+
+            <!-- tab control -->
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tab-posts">Posts</a></li>
+                    <li><a href="#tab-cats">Categories</a></li>
+                    <li><a href="#tab-tags">Tags</a></li>
+                </ul>
+
+                <div id="tab-posts" class="tab">
+                    <table id="tablePosts" class="grid"></table>
+                    <div id="pagerPosts" class="pager">
+                    </div>
+                </div>
+
+                <div id="tab-cats" class="tab">
+                    <table id="tableCats" class="grid"></table>
+                    <div id="pagerCats" class="pager">
+                    </div>
+                </div>
+
+                <div id="tab-tags" class="tab">
+                    <table id="tableTags" class="grid"></table>
+                    <div id="pagerTags" class="pager">
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 </body>
 </html>

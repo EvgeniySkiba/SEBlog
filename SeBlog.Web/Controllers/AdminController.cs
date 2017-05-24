@@ -4,6 +4,8 @@ using SeBlog.Core.Objects;
 using SeBlog.Web.Models;
 using SeBlog.Web.Providers;
 using System;
+using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -99,12 +101,14 @@ namespace SeBlog.Web.Controllers
             }), "application/json");
         }
 
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ContentResult AddPost(Post post)
         {
             string json;
 
-            if (ModelState.IsValid)
+            ModelState.Clear();
+
+            if (TryValidateModel(post))
             {
                 var id = _blogRepository.AddPost(post);
 
@@ -127,5 +131,185 @@ namespace SeBlog.Web.Controllers
 
             return Content(json, "application/json");
         }
+
+        [HttpPost]
+        public ContentResult AddTag([Bind(Exclude = "Id")]Tag tag)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                var id = _blogRepository.AddTag(tag);
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = id,
+                    success = true,
+                    message = "Tag added successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to add the tag."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
+        public ContentResult GetCategoriesHtml()
+        {
+            var categories = _blogRepository.Categories().OrderBy(s => s.Name);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(@"<select>");
+
+            foreach (var category in categories)
+            {
+                sb.AppendLine(string.Format(@"<option value=""{0}"">{1}</option>",
+                    category.Id, category.Name));
+            }
+
+            sb.AppendLine("<select>");
+            return Content(sb.ToString(), "text/html");
+        }
+
+        public ContentResult GetTagsHtml()
+        {
+            var tags = _blogRepository.Tags().OrderBy(s => s.Name);
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(@"<select multiple=""multiple"">");
+
+            foreach (var tag in tags)
+            {
+                sb.AppendLine(string.Format(@"<option value=""{0}"">{1}</option>",
+                    tag.Id, tag.Name));
+            }
+
+            sb.AppendLine("<select>");
+            return Content(sb.ToString(), "text/html");
+        }
+
+        #region Categories 
+        public ContentResult Categories()
+        {
+            var categories = _blogRepository.Categories();
+
+            return Content(JsonConvert.SerializeObject(new
+            {
+                page = 1,
+                records = categories.Count,
+                rows = categories,
+                total = 1
+            }), "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult AddCategory([Bind(Exclude = "Id")]Category category)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                var id = _blogRepository.AddCategory(category);
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = id,
+                    success = true,
+                    message = "Category added successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to add the category."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult DeleteCategory(int id)
+        {
+            _blogRepository.DeleteCategory(id);
+
+            var json = JsonConvert.SerializeObject(new
+            {
+                id = 0,
+                success = true,
+                message = "Category deleted successfully."
+            });
+
+            return Content(json, "application/json");
+        }
+
+        #endregion
+
+        public ContentResult Tags()
+        {
+            var tags = _blogRepository.Tags();
+
+            return Content(JsonConvert.SerializeObject(new
+            {
+                page = 1,
+                records = tags.Count,
+                rows = tags,
+                total = 1
+            }), "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult EditTag(Tag tag)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                _blogRepository.EditTag(tag);
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = tag.Id,
+                    success = true,
+                    message = "Changes saved successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to save the changes."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult DeleteTag(int id)
+        {
+            _blogRepository.DeleteTag(id);
+
+            var json = JsonConvert.SerializeObject(new
+            {
+                id = 0,
+                success = true,
+                message = "Tag deleted successfully."
+            });
+
+            return Content(json, "application/json");
+        }
+
+
+
     }
 }
