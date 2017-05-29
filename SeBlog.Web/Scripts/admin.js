@@ -1,7 +1,6 @@
 ﻿
 $(function () {
 
-    alert('here2');
     $("#tabs").tabs({
         show: function (event, ui) {
 
