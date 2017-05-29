@@ -8,6 +8,7 @@ using SeBlog.Core.Objects;
 using SeBlog.Web.Providers;
 using System.Web.Optimization;
 using SeBlog.Web.App_Start;
+using System.Web.Http;
 
 namespace SeBlog.Web
 {
@@ -31,6 +32,7 @@ namespace SeBlog.Web
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             base.OnApplicationStarted();
         }
 
