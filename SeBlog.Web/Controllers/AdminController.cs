@@ -1,11 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Newtonsoft.Json;
 using SeBlog.Core;
 using SeBlog.Core.Objects;
 using SeBlog.Web.Models;
 using SeBlog.Web.Providers;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -17,11 +23,58 @@ namespace SeBlog.Web.Controllers
         private readonly IAuthProvider _authProvider;
         private readonly IBlogRepository _blogRepository;
 
+
+
         public AdminController(IAuthProvider authProvider, IBlogRepository blogRepository = null)
         {
             _authProvider = authProvider;
             _blogRepository = blogRepository;
         }
+
+        private ApplicationUserManager UserManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+        }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email, Year = model.Year };
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Login", "Admin");
+                }
+                else
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+            return View(model);
+        }
+
 
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -29,23 +82,35 @@ namespace SeBlog.Web.Controllers
             if (_authProvider.IsLoggedIn)
                 return RedirectToUrl(returnUrl);
 
-            ViewBag.ReturnUrl = returnUrl;
-
-            return View();
+            ViewBag.returnUrl = returnUrl;
+            return View(); ;
         }
 
         [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
-            model.UserName = "admin";
-            model.Password = "admin";
-
-            if (ModelState.IsValid && _authProvider.Login(model.UserName, model.Password))
+            if (ModelState.IsValid)
             {
-                return RedirectToUrl(returnUrl);
+                ApplicationUser user = await UserManager.FindAsync(model.UserName, model.Password);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Неверный логин или пароль.");
+                }
+                else
+                {
+                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
+                                            DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+                    if (String.IsNullOrEmpty(returnUrl))
+                        return RedirectToAction("Index", "Home");
+                    return Redirect(returnUrl);
+                }
             }
-
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ViewBag.returnUrl = returnUrl;
             return View(model);
         }
 
@@ -56,9 +121,8 @@ namespace SeBlog.Web.Controllers
 
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
-
-            return RedirectToAction("Login", "Admin");
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Login");
         }
 
         private ActionResult RedirectToUrl(string returnUrl)

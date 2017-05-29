@@ -11,18 +11,19 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
-    
+
     @Scripts.Render("~/jquery", "~/jqueryval", "~/jqueryunobtrusiveval")
-    @Styles.Render("~/Content/admin/css")  
+    @Styles.Render("~/Content/admin/css")
 
 </head>
 
 <body>
     <div id="login-div">
-        @Html.ValidationSummary(true)
-
         @using (Html.BeginForm())
         {
+            @Html.ValidationSummary(true)
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+
             <fieldset>
                 <legend>Login</legend>
                 <p>
@@ -40,9 +41,12 @@
                 @Html.Hidden("ReturnUrl")
                 @Html.AntiForgeryToken()
 
-                <p>
-                    <input type="submit" value="Login" />
-                </p>
+                <div class="row">
+                    <p>
+                        <input type="submit" value="Login" />                   
+                        @Html.ActionLink("Register", "Register", "Admin", null, new { @class = "btn" })
+                    </p>
+                </div>
             </fieldset>
         }
     </div>
