@@ -1,5 +1,7 @@
 ﻿
 $(function () {
+
+    alert('here2');
     $("#tabs").tabs({
         show: function (event, ui) {
 
@@ -42,10 +44,7 @@ JustBlog.GridManager = {
     postsGrid: function (gridName, pagerName) {
 
         var afterShowForm = function (form) {
-
-          
-
-        
+            
 
          //   tinyMCE.execCommand('mceFocus', false, 'ShortDescription');
             tinyMCE.execCommand('mceAddEditor', false, "ShortDescription");

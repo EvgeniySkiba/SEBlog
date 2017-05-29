@@ -6,6 +6,8 @@ using SeBlog.Core;
 using SeBlog.Core.Concrete;
 using SeBlog.Core.Objects;
 using SeBlog.Web.Providers;
+using System.Web.Optimization;
+using SeBlog.Web.App_Start;
 
 namespace SeBlog.Web
 {
@@ -26,7 +28,9 @@ namespace SeBlog.Web
         {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             ModelBinders.Binders.Add(typeof(Post), new PostModelBinder(Kernel));
-          
+
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
             base.OnApplicationStarted();
         }
 

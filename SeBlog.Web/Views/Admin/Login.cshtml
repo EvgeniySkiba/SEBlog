@@ -12,10 +12,15 @@
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
 
-    <link href="@Url.Content("~/Content/themes/simple/admin.css")" rel="stylesheet" />
+    @Styles.Render("~/Content/admin/css")
 
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+  
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+   
+
+    @*<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>*@
     <script src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js"></script>
 </head>
 
