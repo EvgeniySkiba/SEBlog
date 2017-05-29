@@ -224,14 +224,17 @@ JustBlog.GridManager = {
                 defaultValue: 'false'
             }
         });
-
+            
         columns.push({
             name: 'PostedOn',
             index: 'PostedOn',
             width: 150,
             align: 'center',
+            formatter : 'date',
             sorttype: 'date',
-            datefmt: 'dd/mm/YYYY'
+            datefmt: 'dd/mm/YYYY',
+            formatoptions : {newformat : 'dd/mm/yyyy'}
+           
         });
 
         columns.push({

@@ -43,6 +43,7 @@ namespace SeBlog.Core.Objects
         { get; set; }
 
         [Required(ErrorMessage = "PostedOn: Field is required")]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime PostedOn
         { get; set; }
 
