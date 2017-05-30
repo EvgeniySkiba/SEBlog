@@ -66,7 +66,17 @@ namespace SeBlog.Web.App_Start
             bundles.Add(new ScriptBundle("~/Scripts/tinymce/tinymce.js").Include(
                     "~/Scripts/tinymce/tinymce.js"));
 
+            // bootstrap
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            "~/Scripts/bootstrap.js",
+            "~/Scripts/respond.js"));
 
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                        "~/Content/bootstrap.css",
+                        "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/themes/simple/login").Include(
+                "~/Content/themes/simple/login.css"));
         }
     }
 }

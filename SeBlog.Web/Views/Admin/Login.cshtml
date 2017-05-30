@@ -5,50 +5,61 @@
 }
 
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
 
     @Scripts.Render("~/jquery", "~/jqueryval", "~/jqueryunobtrusiveval")
-    @Styles.Render("~/Content/admin/css")
 
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/simple/login")
 </head>
 
 <body>
-    <div id="login-div">
-        @using (Html.BeginForm())
-        {
-            @Html.ValidationSummary(true)
-            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+    <div class="container>
+        <div class="row">
+            <div class="col-md-8">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                        @Html.AntiForgeryToken()
+                        <h4>Use a local account to log in.</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-            <fieldset>
-                <legend>Login</legend>
-                <p>
-                    @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName)
-                    @Html.ValidationMessageFor(m => m.UserName)
-                </p>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-1 ">
+                                <input type="submit" value="Log in" class="btn btn-default" />
+                            </div>
+                            <div class="col-md-1">
+                                @Html.ActionLink("Register as a new user", "Register",null, new { @class="btn btn-default"})
+                                </div>
+                            </div>
+                      
 
-                <p>
-                    @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password)
-                    @Html.ValidationMessageFor(m => m.Password)
-                </p>
+                    }
+                </section>
+            </div>
 
-                @Html.Hidden("ReturnUrl")
-                @Html.AntiForgeryToken()
-
-                <div class="row">
-                    <p>
-                        <input type="submit" value="Login" />                   
-                        @Html.ActionLink("Register", "Register", "Admin", null, new { @class = "btn" })
-                    </p>
-                </div>
-            </fieldset>
-        }
+        </div>
     </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+
 </body>
 </html>
