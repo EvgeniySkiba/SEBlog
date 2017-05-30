@@ -3,6 +3,7 @@ using SeBlog.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,7 +23,7 @@ namespace SeBlog.Web.Controllers
         {
             return View();
         }
-        public ViewResult Posts(int p = 1)
+        public async Task<ViewResult>   Posts(int p = 1)
         {
             // pick latest 10 posts
             var posts = _blogRepository.Posts(p - 1, 10);
